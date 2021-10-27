@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Avatar,
   Card,
   CardContent,
   CardMedia,
@@ -19,6 +20,17 @@ const useStyles = makeStyles((theme) => ({
   },
   cardContent: {
     textAlign: "center",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  avatar: {
+    margin: "auto",
+  },
+  name: {
+    fontFamily: "Tahoma",
+    color: "red",
   },
 }));
 
@@ -26,10 +38,14 @@ const UserDetails = ({ firstName, lastName, email, avatar, key }) => {
   const classes = useStyles();
   return (
     <Grid item xs={12} sm={2} key={key}>
-      <Card className={classes.card}>
-        <CardMedia />
-        <CardContent className={classes.cardContent}>
-          <Typography></Typography>
+      <Card className={classes.card} variant="outlined">
+        <CardMedia style={{ height: 250 }} image={avatar} />
+
+        <CardContent gutterBottom className={classes.cardContent}>
+          <Typography className={classes.name}>
+            {firstName} {lastName}
+          </Typography>
+          <Typography>{email}</Typography>
         </CardContent>
       </Card>
     </Grid>

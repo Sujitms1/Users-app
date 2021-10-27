@@ -1,5 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Box, Grid, CircularProgress } from "@material-ui/core";
+import {
+  Box,
+  Grid,
+  CircularProgress,
+  AppBar,
+  Toolbar,
+  Typography,
+} from "@material-ui/core";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core";
 import UserDetails from "./UserDetails";
@@ -7,8 +14,21 @@ import UserDetails from "./UserDetails";
 const useStyles = makeStyles((theme) => ({
   usersContainer: {
     textAlign: "center",
-    padding: "80px 10px 0px 10px",
-    backgroundColor: "rgb(68, 68, 68)",
+    padding: "100px 10px 0px 10px",
+  },
+  loading: {
+    width: "100%",
+    height: "600px",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  appBar: {
+    backgroundColor: "black",
+  },
+  header: {
+    margin: "auto",
+    fontSize: 30,
   },
 }));
 
@@ -18,35 +38,46 @@ const Users = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     axios.get("https://reqres.in/api/users?page=1").then((res) => {
       const results = res.data.data;
-      setUsers(results);
+
+      let userData = [];
+
+      results.forEach((user) => {
+        let userObject = {
+          id: user.id,
+          email: user.email,
+          firstname: user.first_name,
+          lastname: user.last_name,
+          image: user.avatar,
+        };
+        userData.push(userObject);
+      });
+
+      setUsers(userData);
     });
   }, []);
 
   console.log(users);
   return (
-    <Box>
-      {isLoading ? (
-        <div className={classes.loading}>
-          <CircularProgress />
-        </div>
-      ) : (
-        <Grid container spacing={2} className={classes.usersContainer}>
-          {users.map((user) => {
-            return (
-              <UserDetails
-                key={user.id}
-                email={user.email}
-                firstName={user.first_name}
-                lastName={user.last_name}
-                avatar={user.avatar}
-              />
-            );
-          })}
-        </Grid>
-      )}
-    </Box>
+    <div>
+      <AppBar className={classes.appBar}>
+        <Toolbar>
+          <Typography className={classes.header}>Brand Name</Typography>
+        </Toolbar>
+      </AppBar>
+
+      <Box>
+        {isLoading ? (
+          <div className={classes.loading}>
+            <CircularProgress />
+          </div>
+        ) : (
+          <Grid container spacing={2} className={classes.usersContainer}></Grid>
+        )}
+      </Box>
+    </div>
   );
 };
 
