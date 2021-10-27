@@ -3,6 +3,7 @@ import { Box, Grid, CircularProgress } from "@material-ui/core";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core";
 import { mergeClasses } from "@material-ui/styles";
+import UserDetails from "./UserDetails";
 
 const useStyles = makeStyles((theme) => ({
   usersContainer: {
@@ -30,7 +31,25 @@ const Users = () => {
   console.log(users);
   return (
     <Box>
-      <Grid container spacing={2} className={classes.usersContainer}></Grid>
+      {isLoading ? (
+        <div className={classes.loading}>
+          <CircularProgress />
+        </div>
+      ) : (
+        <Grid container spacing={2} className={classes.usersContainer}>
+          {users.map((user) => {
+            return (
+              <UserDetails
+                key={user.id}
+                email={user.email}
+                firstName={user.first_name}
+                lastName={user.last_name}
+                avatar={user.avatar}
+              />
+            );
+          })}
+        </Grid>
+      )}
     </Box>
   );
 };
