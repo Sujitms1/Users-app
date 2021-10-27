@@ -15,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
 const Users = () => {
   const classes = useStyles();
   const [users, setUsers] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     axios.get("https://reqres.in/api/users?page=1").then((res) => {
       const results = res.data.data;
