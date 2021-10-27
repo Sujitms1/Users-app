@@ -56,7 +56,7 @@ const Users = () => {
     <div>
       <AppBar className={classes.appBar}>
         <Toolbar>
-          <Typography className={classes.header}>Brand Name</Typography>
+          <Typography className={classes.header}>Insert Brand Name</Typography>
           <Button className={classes.getUsers} onClick={() => getUsers()}>
             Get Users
           </Button>
@@ -70,7 +70,7 @@ const Users = () => {
           </div>
         )}
         {users && (
-          <Grid container spacing={2} className={classes.usersContainer}>
+          <Grid container spacing={4} className={classes.usersContainer}>
             {users.map((user) => {
               return (
                 <UserDetails

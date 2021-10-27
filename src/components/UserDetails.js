@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Avatar,
   Card,
   CardContent,
   CardMedia,
@@ -17,7 +16,6 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       backgroundColor: "rgb(90,90,90)",
     },
-    width: 250,
   },
   cardContent: {
     textAlign: "center",
