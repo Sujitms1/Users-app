@@ -6,6 +6,7 @@ import {
   AppBar,
   Toolbar,
   Typography,
+  Button,
 } from "@material-ui/core";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core";
@@ -30,6 +31,10 @@ const useStyles = makeStyles((theme) => ({
     margin: "auto",
     fontSize: 30,
   },
+  getUsers: {
+    color: "white",
+    backgroundColor: "blue",
+  },
 }));
 
 const Users = () => {
@@ -37,27 +42,14 @@ const Users = () => {
   const [users, setUsers] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
+  const getUsers = () => {
     setIsLoading(true);
     axios.get("https://reqres.in/api/users?page=1").then((res) => {
       const results = res.data.data;
-
-      let userData = [];
-
-      results.forEach((user) => {
-        let userObject = {
-          id: user.id,
-          email: user.email,
-          firstname: user.first_name,
-          lastname: user.last_name,
-          image: user.avatar,
-        };
-        userData.push(userObject);
-      });
-
-      setUsers(userData);
+      setUsers(results);
     });
-  }, []);
+    setIsLoading(false);
+  };
 
   console.log(users);
   return (
@@ -65,16 +57,32 @@ const Users = () => {
       <AppBar className={classes.appBar}>
         <Toolbar>
           <Typography className={classes.header}>Brand Name</Typography>
+          <Button className={classes.getUsers} onClick={() => getUsers()}>
+            Get Users
+          </Button>
         </Toolbar>
       </AppBar>
 
       <Box>
-        {isLoading ? (
+        {isLoading && (
           <div className={classes.loading}>
             <CircularProgress />
           </div>
-        ) : (
-          <Grid container spacing={2} className={classes.usersContainer}></Grid>
+        )}
+        {users && (
+          <Grid container spacing={2} className={classes.usersContainer}>
+            {users.map((user) => {
+              return (
+                <UserDetails
+                  key={user.id}
+                  email={user.email}
+                  firstName={user.first_name}
+                  lastName={user.last_name}
+                  avatar={user.avatar}
+                />
+              );
+            })}
+          </Grid>
         )}
       </Box>
     </div>
